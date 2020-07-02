@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>You are lost</title>
+    <link href="../static/css/bootstrap.css" rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet"
+          type="text/css">
+    <link href="../static/css/catdiary.css" rel="stylesheet" th:href="@{/css/catdiary.css}">
+
+</head>
+<body>
+<main class="masthead text-white text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+                <h3>
+                    Not a page, dude: <span th:utext="${path}">Your page that you tried to access</span>
+                </h3>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

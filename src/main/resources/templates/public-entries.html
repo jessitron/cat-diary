@@ -1,0 +1,65 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Cat Diary</title>
+    <link href="../static/css/bootstrap.css" rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet"
+          type="text/css">
+    <link href="../static/css/catdiary.css" rel="stylesheet" th:href="@{/css/catdiary.css}">
+</head>
+
+<body>
+<div th:replace="fragments/header :: header"></div>
+<main class="masthead text-white text-center">
+    <div class="silly"><a href="/entries">My Diary</a></div>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1 class="mb-5">Other cats say...</h1>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Message</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="entry : ${entries}">
+                        <td>
+                            <div class="entryImage" th:if="${entry.showImage}">
+                                <img class="selfie" th:src="${entry.imageUrl}"/>
+                            </div>
+                            <span th:text="${entry.catName}">Another Cat</span>
+                        </td>
+                        <td>
+                            <div class="entryText">
+                                <h3 th:text="${entry.title}">Title goes here</h3>
+                                <p th:utext="${entry.complaint}">Complaint goes here</p>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="row justify-content-center">
+        <div class="col-2"></div>
+        <div class="col-6">
+            <p th:text="${message}">Message goes here</p>
+        </div>
+        <div class="col-2">
+            <form action="/logout" method="POST">
+                <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <button type="submit">Log out</button>
+            </form>
+        </div>
+        <div class="col-2"></div>
+    </div>
+</footer>
+</body>
+
+</html>

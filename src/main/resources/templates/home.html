@@ -1,0 +1,24 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Cat Diary</title>
+    <link href="../static/css/bootstrap.css" rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet"
+          type="text/css">
+    <link href="../static/css/catdiary.css" rel="stylesheet" th:href="@{/css/catdiary.css}">
+</head>
+
+<body>
+<div th:replace="fragments/header :: header"></div>
+<main class="masthead text-white text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+                <h3><a th:href="@{/entries}">I am a cat, dude.</a></h3>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>
