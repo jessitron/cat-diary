@@ -1,5 +1,7 @@
 # Cat Diary
 
+A journal app for cats, yeah. plus some cat pictures
+
 This is a Spring Boot app that does its own auth (poorly) and is vulnerable to XSS.
 
 ## Run
@@ -7,8 +9,4 @@ This is a Spring Boot app that does its own auth (poorly) and is vulnerable to X
 `./gradlew bootRun`
 
 http://localhost:8080
-
-## VSCode
-
-Open in VSCode with containers.
 
