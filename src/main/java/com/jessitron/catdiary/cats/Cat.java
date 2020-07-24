@@ -15,16 +15,12 @@ public class Cat {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  //@Embedded
-  private final String catName;
+  private final CatName catName;
   private final Integer lives;
 
   public Cat(CatName catName, Integer lives) {
-    this.catName = catName.getName();
+    this.catName = catName;
     this.lives = lives;
   }
 
-  public CatName getCatName() {
-    return new CatName(catName);
-  }
 }
