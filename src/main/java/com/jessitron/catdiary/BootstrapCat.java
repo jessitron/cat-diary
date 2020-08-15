@@ -53,7 +53,7 @@ public class BootstrapCat implements ApplicationRunner {
       var pincho = pinchoReport.getCatIdentity().getCat();
       saveEntry(pincho, "You cannot see my internal shape when I fold into a bean", "https://raw.githubusercontent.com/jessitron/cat-diary/main/cat-pictures/pincho_yoga.jpg", "I am a pincho bean");
       saveEntry(pincho, "My unicorn horn is heavy.", "https://raw.githubusercontent.com/jessitron/cat-diary/main/cat-pictures/pincho_unicorn.jpg", "I bear the burden of magic");
-      saveEntry(pincho, "Violets are blue\r\nI am the most handsome cat\r\nand you think so too.",
+      saveDeletedEntry(pincho, "Violets are blue\r\nI am the most handsome cat\r\nand you think so too.",
           "https://raw.githubusercontent.com/jessitron/cat-diary/main/cat-pictures/pincho_strawhat.jpg",
           "Roses are red");
       saveEntry(pincho, "You can become trapped in merriment", "https://raw.githubusercontent.com/jessitron/cat-diary/main/cat-pictures/pincho_santa.jpg", "Beware Christmas");
@@ -63,6 +63,12 @@ public class BootstrapCat implements ApplicationRunner {
 
   private void saveEntry(Cat cat, String complaint, String imageUrl, String title) {
     entryService.save(cat, title, complaint, imageUrl);
+  }
+
+
+  private void saveDeletedEntry(Cat cat, String complaint, String imageUrl, String title) {
+    var e = entryService.save(cat, title, complaint, imageUrl);
+    entryService.delete(e);
   }
 }
 
