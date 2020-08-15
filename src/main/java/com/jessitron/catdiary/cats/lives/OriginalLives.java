@@ -1,11 +1,13 @@
 package com.jessitron.catdiary.cats.lives;
 
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Value
 public class OriginalLives {
 
-  public final int intValue;
+  public int intValue;
 
   public OriginalLives(int intValue) {
     if (9 < intValue) {
