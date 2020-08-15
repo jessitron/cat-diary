@@ -25,13 +25,13 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/entries")
 public class EntryController {
 
-  private final EntryRepository entryRepo;
+  private final EntryService entryService;
 
   private final CatService catService;
 
   @Autowired
-  public EntryController(EntryRepository entryRepo, CatService catService) {
-    this.entryRepo = entryRepo;
+  public EntryController(EntryService entryService, CatService catService) {
+    this.entryService = entryService;
     this.catService = catService;
   }
 
@@ -43,7 +43,7 @@ public class EntryController {
   @GetMapping
   public String entries(Model model, @AuthenticationPrincipal User catIdentity, HttpServletResponse response) {
     var cat = catService.getCatFromUsername(catIdentity.getUsername());
-    List<EntryView> entries = entryRepo.findAllByCat(cat)
+    List<EntryView> entries = entryService.findAllByCat(cat)
         .stream().map(EntryView::new)
         .sorted(Comparator.comparingLong(EntryView::getId).reversed())
         .collect(Collectors.toList());
@@ -59,11 +59,11 @@ public class EntryController {
   }
 
   @GetMapping("/public")
-  public String publicEntries(Model model,  @Value("${feature.publicEntries:false}") boolean showPublicEntries) {
-    if(!showPublicEntries) {
+  public String publicEntries(Model model, @Value("${feature.publicEntries:false}") boolean showPublicEntries) {
+    if (!showPublicEntries) {
       throw new FeatureTurnedOffException();
     }
-    List<EntryView> entries = entryRepo.findAll()
+    List<EntryView> entries = entryService.findAll()
         .stream().map(EntryView::new)
         .sorted(Comparator.comparingLong(EntryView::getId).reversed())
         .collect(Collectors.toList());
@@ -86,7 +86,7 @@ public class EntryController {
   public String acceptEntry(EntryRequest newEntry, @AuthenticationPrincipal User catIdentity) {
     log.info("Got a new diary entry.");
     var cat = catService.getCatFromUsername(catIdentity.getUsername());
-    entryRepo.save(new Entry(cat, newEntry.getTitle(), newEntry.getComplaint(), newEntry.getImageUrl()));
+    entryService.save(cat, newEntry.getTitle(), newEntry.getComplaint(), newEntry.getImageUrl());
     return "redirect:/entries";
   }
 
