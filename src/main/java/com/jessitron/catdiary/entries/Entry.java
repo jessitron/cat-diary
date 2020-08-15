@@ -1,11 +1,14 @@
 package com.jessitron.catdiary.entries;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 
 import javax.persistence.*;
 
 import com.jessitron.catdiary.cats.Cat;
 
+import com.jessitron.catdiary.entries.deletion.EntryDeletion;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,6 +28,9 @@ public class Entry {
   @ManyToOne(optional = false)
   private final Cat cat;
 
+  @OneToMany(mappedBy = "entry")
+  private Collection<EntryDeletion> deletions = Collections.emptyList();
+
   private final String title;
   private Date timestamp;
   private final String complaint;
@@ -34,6 +40,10 @@ public class Entry {
   @PrePersist
   void timestamp() {
     this.timestamp = new Date();
+  }
+
+  public boolean isDeleted() {
+    return !this.deletions.isEmpty();
   }
 
 }

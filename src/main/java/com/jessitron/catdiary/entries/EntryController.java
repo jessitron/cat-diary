@@ -48,7 +48,7 @@ public class EntryController {
         .sorted(Comparator.comparingLong(EntryView::getId).reversed())
         .collect(Collectors.toList());
     model.addAttribute("entries", entries);
-    String message = "You are a great cat, " + cat.getCatName();
+    String message = "You are a great cat, " + cat.getCatName().displayValue();
     model.addAttribute("message", message);
     model.addAttribute("newEntry", new EntryRequest());
     model.addAttribute("catSound", imagineCatSound());
