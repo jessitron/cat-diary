@@ -18,18 +18,13 @@ build/
 .idea
 *.iws
 *.iml
-*.ipr
+*.ipr   
 out/
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
 
 ### VS Code ###
 .vscode/
+
 bin/
 /db.trace.db
 db.*
+logs/

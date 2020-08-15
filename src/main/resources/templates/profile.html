@@ -1,0 +1,89 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Cat Diary</title>
+    <link href="../static/css/bootstrap.css" rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet"
+          type="text/css">
+    <link href="../static/css/software-excellence.css" rel="stylesheet" th:href="@{/css/software-excellence.css}">
+</head>
+
+<body>
+<div th:replace="fragments/header :: header"></div>
+<main class="masthead text-white">
+    <div class="container">
+            <h1 th:if="${param.error}" class="mb-5 error" th:text="${param.error}">Oh, that didn't work.</h1>
+        <div class="row">
+            <div class="col">
+                <h1 class="mb-5 text-center">Profile</h1>
+                <div class="row pb-3">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-2">
+                        <label for="catName" class="control-label col-sm">Cat Name:</label>
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="text" readonly id="catName" class="col-sm form-control"
+                               th:value="${catName}">
+                    </div>
+                    <div class="col-sm-5"></div>
+                </div>
+                <div class="row pb-3">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-2">
+                        <label for="pw" class="control-label col-sm">Password:</label>
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="password" readonly id="pw" class="col-sm form-control"
+                               th:value="${maskedPassword}">
+                    </div>
+                    <div class="col-sm-5">
+                        <form action="/changePassword" method="GET">
+                            <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}"
+                                   th:value="${_csrf.token}"/>
+                            <button type="submit">Change</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="row pb-3">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-2">
+                        <label for="lives" class="control-label col-sm">Lives:</label>
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="text" readonly id="lives" class="col-sm form-control"
+                               th:value="${lives}">
+                    </div>
+                    <div class="col-sm-5 justify-content-left">
+                        <form action="/cat/death" method="POST">
+                            <button type="submit">Decrement</button>
+                            <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}"
+                                   th:value="${_csrf.token}"/>
+                        </form>
+                    </div>
+                </div>
+                <div class="row pb-3">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-2">
+                        <label for="bankAccount" class="control-label col-sm">CatBank Account:</label>
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="text" id="bankAccount" class="col-sm form-control"
+                               th:value="${bankAccount}">
+                    </div>
+                    <div class="col-sm-5 justify-content-left">
+                        <form action="/bank" method="POST">
+                            <button type="submit">Update</button>
+                            <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}"
+                                   th:value="${_csrf.token}"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+</body>
+
+</html>

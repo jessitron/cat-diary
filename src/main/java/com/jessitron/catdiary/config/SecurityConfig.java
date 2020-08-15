@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Bean
   public PasswordEncoder passwordEncoder() {
-    return new DelegatingPasswordEncoder("argon", Map.of(
+    return new DelegatingPasswordEncoder("bcrypt", Map.of(
         "argon", new Argon2PasswordEncoder(),
         "bcrypt", new BCryptPasswordEncoder(31),
         "noop", NoOpPasswordEncoder.getInstance()));
@@ -65,6 +65,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
         .httpBasic();
 
-    http.csrf().disable();
   }
 }

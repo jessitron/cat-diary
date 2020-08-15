@@ -20,13 +20,13 @@ public class CatIdentity {
 
   @Column(unique=true)
   private final String username;
-  private final String password;
+  private final EncodedPassword password;
 
   @OneToOne
   private final Cat cat;
 
-  public CatIdentity(Cat cat, String encodedPassword) {
-    this.username = cat.getCatName().getName();
+  public CatIdentity(Cat cat, EncodedPassword encodedPassword) {
+    this.username = cat.getCatName().stringValue;
     this.cat = cat;
     this.password = encodedPassword;
   }

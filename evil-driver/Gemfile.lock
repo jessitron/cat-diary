@@ -1,0 +1,25 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    childprocess (3.0.0)
+    coderay (1.1.3)
+    method_source (1.0.0)
+    pry (0.13.1)
+      coderay (~> 1.1)
+      method_source (~> 1.0)
+    rubyzip (2.3.0)
+    rufo (0.12.0)
+    selenium-webdriver (3.142.7)
+      childprocess (>= 0.5, < 4.0)
+      rubyzip (>= 1.2.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  pry
+  rufo
+  selenium-webdriver
+
+BUNDLED WITH
+   2.1.4

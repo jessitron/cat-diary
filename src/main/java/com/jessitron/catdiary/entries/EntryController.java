@@ -54,7 +54,7 @@ public class EntryController {
     model.addAttribute("catSound", imagineCatSound());
 
     response.addCookie(new Cookie("catSound", imagineCatSound())); // gratuitous cookies
-    response.addCookie(new Cookie("myCatName", cat.getCatName().toString()));
+    response.addCookie(new Cookie("myCatName", cat.getCatName().stringValue));
     return "entries";
   }
 
@@ -84,7 +84,7 @@ public class EntryController {
 
   @PostMapping
   public String acceptEntry(EntryRequest newEntry, @AuthenticationPrincipal User catIdentity) {
-    log.info("Got a new diary entry");
+    log.info("Got a new diary entry.");
     var cat = catService.getCatFromUsername(catIdentity.getUsername());
     entryRepo.save(new Entry(cat, newEntry.getTitle(), newEntry.getComplaint(), newEntry.getImageUrl()));
     return "redirect:/entries";

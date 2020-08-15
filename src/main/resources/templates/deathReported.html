@@ -10,21 +10,28 @@
 
 <body>
 <div th:replace="fragments/header :: header"></div>
-<main class="masthead text-white text-center">
+<main class="masthead text-white">
     <div class="container">
         <div class="row">
-            <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-                <h1 th:if="${param.error}" class="mb-5 error">Oh, that didn't work.</h1>
-                <div>
-                    <h2>Welcome, <span th:text="${catName}" }>kitty</span>!</h2>
-                    <h3>Your username is: <span class="new-username" th:text="${username}">kitty</span></h3>
-                    <br />
-                    <h2>You may now <a href="/login">log in</a>.</h2>
-                </div>
+            <div class="col-xl-10 mx-auto"><h1 th:text="${message}">LOL, you died</h1></div>
+        </div>
+        <div class="row">
+            <div class="col-xl-10 mx-auto"><p>Good thing you still have <span th:text="${lives}">8</span> lives.</p>
             </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-2">
+                <a href="/cat/profile">My Profile</a>
+            </div>
+            <div class="col-sm-2">
+                <a href="/entries">My Diary</a>
+            </div>
+            <div class="4"></div>
         </div>
     </div>
 </main>
+
 </body>
 
 </html>

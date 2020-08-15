@@ -1,6 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
+    <meta charset="ISO-8859-1">
     <title>Cat Diary</title>
     <link href="../static/css/bootstrap.css" rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet"
@@ -13,18 +14,15 @@
 <main class="masthead text-white text-center">
     <div class="container">
         <div class="row">
+            <div class="col-2">
+                <img src="/img/cat-tombstone.jpg" class="tombstone">
+            </div>
             <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-                <h1 th:if="${param.error}" class="mb-5 error">Oh, that didn't work.</h1>
-                <div>
-                    <h2>Welcome, <span th:text="${catName}" }>kitty</span>!</h2>
-                    <h3>Your username is: <span class="new-username" th:text="${username}">kitty</span></h3>
-                    <br />
-                    <h2>You may now <a href="/login">log in</a>.</h2>
-                </div>
+                <h1><span class="cloudy">RIP</span></h1>
+                <h1><span class="cloudy" th:text="${catName}">cat face</span></h1>
             </div>
         </div>
     </div>
 </main>
 </body>
-
 </html>

@@ -5,9 +5,10 @@ import javax.persistence.Converter;
 
 @Converter(autoApply = true)
 public class CatNameConverter implements AttributeConverter<CatName, String> {
+
   @Override
   public String convertToDatabaseColumn(CatName domainPrimitive) {
-    return domainPrimitive.getName();
+    return domainPrimitive.stringValue;
   }
 
   @Override
