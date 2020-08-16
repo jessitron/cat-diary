@@ -65,7 +65,6 @@ public class BootstrapCat implements ApplicationRunner {
     entryService.save(cat, title, complaint, imageUrl);
   }
 
-
   private void saveDeletedEntry(Cat cat, String complaint, String imageUrl, String title) {
     var e = entryService.save(cat, title, complaint, imageUrl);
     entryService.delete(e);

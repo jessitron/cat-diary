@@ -44,7 +44,7 @@ public class EntryController {
   public String entries(Model model, @AuthenticationPrincipal User catIdentity, HttpServletResponse response) {
     var cat = catService.getCatFromUsername(catIdentity.getUsername());
     List<EntryView> entries = entryService.findAllByCat(cat)
-        .stream().map(EntryView::new)
+        .map(EntryView::new)
         .sorted(Comparator.comparingLong(EntryView::getId).reversed())
         .collect(Collectors.toList());
     model.addAttribute("entries", entries);
@@ -64,7 +64,7 @@ public class EntryController {
       throw new FeatureTurnedOffException();
     }
     List<EntryView> entries = entryService.findAll()
-        .stream().map(EntryView::new)
+        .map(EntryView::new)
         .sorted(Comparator.comparingLong(EntryView::getId).reversed())
         .collect(Collectors.toList());
     model.addAttribute("entries", entries);

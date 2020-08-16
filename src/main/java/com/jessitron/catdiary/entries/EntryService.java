@@ -6,7 +6,7 @@ import com.jessitron.catdiary.entries.deletion.EntryDeletionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class EntryService {
@@ -24,12 +24,12 @@ public class EntryService {
     return entryRepo.save(new Entry(cat, complaint, imageUrl, title));
   }
 
-  public List<Entry> findAllByCat(Cat cat) {
-    return entryRepo.findAllByCat(cat);
+  public Stream<Entry> findAllByCat(Cat cat) {
+    return entryRepo.findAllByCat(cat).stream().filter(entry -> !entry.hasBeenDeleted());
   }
 
-  public List<Entry> findAll() {
-    return entryRepo.findAll();
+  public Stream<Entry> findAll() {
+    return entryRepo.findAll().stream().filter(entry -> !entry.hasBeenDeleted());
   }
 
   public EntryDeletion delete(Entry entry) {

@@ -42,8 +42,7 @@ public class Entry {
     this.timestamp = new Date();
   }
 
-  public boolean isDeleted() {
+  public boolean hasBeenDeleted() {
     return !this.deletions.isEmpty();
   }
-
 }
