@@ -56,7 +56,7 @@ public class BootstrapCat implements ApplicationRunner {
       saveDeletedEntry(pincho, "Violets are blue\r\nI am the most handsome cat\r\nand you think so too.",
           "https://raw.githubusercontent.com/jessitron/cat-diary/main/cat-pictures/pincho_strawhat.jpg",
           "Roses are red");
-      saveEntry(pincho, "You can become trapped in merriment", "https://raw.githubusercontent.com/jessitron/cat-diary/main/cat-pictures/pincho_santa.jpg", "Beware Christmas");
+      savePublicEntry(pincho, "You can become trapped in merriment", "https://raw.githubusercontent.com/jessitron/cat-diary/main/cat-pictures/pincho_santa.jpg", "Beware Christmas");
       saveEntry(pincho, "I am dangerous, and fancy", "https://raw.githubusercontent.com/jessitron/cat-diary/main/cat-pictures/pincho_purrate_2.jpg", "Fear me");
     }
   }
@@ -68,6 +68,11 @@ public class BootstrapCat implements ApplicationRunner {
   private void saveDeletedEntry(Cat cat, String complaint, String imageUrl, String title) {
     var e = entryService.save(cat, title, complaint, imageUrl);
     entryService.delete(e);
+  }
+
+  private void savePublicEntry(Cat cat, String complaint, String imageUrl, String title) {
+    var e = entryService.save(cat, title, complaint, imageUrl);
+    entryService.makePublic(e);
   }
 }
 

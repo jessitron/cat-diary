@@ -3,6 +3,9 @@ package com.jessitron.catdiary.entries;
 import com.jessitron.catdiary.cats.Cat;
 import com.jessitron.catdiary.entries.deletion.EntryDeletion;
 import com.jessitron.catdiary.entries.deletion.EntryDeletionRepository;
+import com.jessitron.catdiary.entries.publicity.EntryPublicity;
+import com.jessitron.catdiary.entries.publicity.EntryPublicityRepository;
+import com.jessitron.catdiary.entries.publicity.Publicity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +16,13 @@ public class EntryService {
 
   private final EntryRepository entryRepo;
   private final EntryDeletionRepository entryDeletionRepo;
+  private final EntryPublicityRepository entryPublicityRepo;
 
   @Autowired
-  public EntryService(EntryRepository entryRepository, EntryDeletionRepository entryDeletionRepo) {
+  public EntryService(EntryRepository entryRepository, EntryDeletionRepository entryDeletionRepo, EntryPublicityRepository entryPublicityRepo) {
     this.entryRepo = entryRepository;
     this.entryDeletionRepo = entryDeletionRepo;
+    this.entryPublicityRepo = entryPublicityRepo;
   }
 
   public Entry save(Cat cat, String complaint, String imageUrl, String title) {
@@ -38,5 +43,13 @@ public class EntryService {
 
   public Entry findById(long entryId) {
     return entryRepo.findById(entryId).orElse(null);
+  }
+
+  public EntryPublicity makePublic(Entry entry) {
+    return entryPublicityRepo.save(new EntryPublicity(entry, Publicity.PUBLIC));
+  }
+
+  public EntryPublicity makePrivate(Entry entry) {
+    return entryPublicityRepo.save(new EntryPublicity(entry, Publicity.PRIVATE));
   }
 }

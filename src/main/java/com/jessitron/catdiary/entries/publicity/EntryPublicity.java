@@ -23,6 +23,7 @@ public class EntryPublicity {
   @ManyToOne(optional = false)
   private final Entry entry;
 
+  @Enumerated(EnumType.STRING)
   private final Publicity publicity;
 
   Date recorded;
