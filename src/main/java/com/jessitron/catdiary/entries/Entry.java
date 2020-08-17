@@ -2,6 +2,7 @@ package com.jessitron.catdiary.entries;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 import javax.persistence.*;
@@ -9,6 +10,8 @@ import javax.persistence.*;
 import com.jessitron.catdiary.cats.Cat;
 
 import com.jessitron.catdiary.entries.deletion.EntryDeletion;
+import com.jessitron.catdiary.entries.publicity.Publicity;
+import com.jessitron.catdiary.entries.publicity.EntryPublicity;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @Entity
-@Table(name="ENTRIES")
+@Table(name = "ENTRIES")
 public class Entry {
 
   @Id
@@ -30,6 +33,10 @@ public class Entry {
 
   @OneToMany(mappedBy = "entry")
   private Collection<EntryDeletion> deletions = Collections.emptyList();
+
+
+  @OneToMany(mappedBy = "entry")
+  private Collection<EntryPublicity> publicities = Collections.emptyList();
 
   private final String title;
   private Date timestamp;
@@ -44,5 +51,12 @@ public class Entry {
 
   public boolean hasBeenDeleted() {
     return !this.deletions.isEmpty();
+  }
+
+  public boolean isPublic() {
+    return Publicity.PUBLIC == this.publicities.stream()
+        .sorted(Comparator.comparingLong(EntryPublicity::getId).reversed())
+        .findFirst().map(EntryPublicity::getPublicity)
+        .orElse(Publicity.PRIVATE);
   }
 }

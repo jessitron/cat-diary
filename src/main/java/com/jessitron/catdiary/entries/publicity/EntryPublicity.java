@@ -1,4 +1,4 @@
-package com.jessitron.catdiary.entries.deletion;
+package com.jessitron.catdiary.entries.publicity;
 
 import com.jessitron.catdiary.entries.Entry;
 import lombok.AccessLevel;
@@ -13,8 +13,8 @@ import java.util.Date;
 @RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @Entity
-@Table(name="ENTRY_DELETIONS")
-public class EntryDeletion {
+@Table(name = "ENTRY_PUBLICITIES")
+public class EntryPublicity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,11 +23,13 @@ public class EntryDeletion {
   @ManyToOne(optional = false)
   private final Entry entry;
 
-  Date deletedAt;
+  private final Publicity publicity;
+
+  Date recorded;
 
   @PrePersist
-  void deleted() {
-    this.deletedAt = new Date();
+  void recorded() {
+    this.recorded = new Date();
   }
 
 }
