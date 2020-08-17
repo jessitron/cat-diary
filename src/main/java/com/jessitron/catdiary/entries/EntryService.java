@@ -35,4 +35,8 @@ public class EntryService {
   public EntryDeletion delete(Entry entry) {
     return entryDeletionRepo.save(new EntryDeletion(entry));
   }
+
+  public Entry findById(long entryId) {
+    return entryRepo.findById(entryId).orElse(null);
+  }
 }

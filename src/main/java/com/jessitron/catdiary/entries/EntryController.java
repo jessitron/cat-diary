@@ -6,6 +6,9 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import com.jessitron.catdiary.cats.CatService;
+import com.jessitron.catdiary.entries.deletion.EntryDeletion;
+import com.jessitron.catdiary.entries.deletion.EntryDeletionRequest;
+import org.bouncycastle.i18n.MissingEntryException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -92,6 +95,25 @@ public class EntryController {
 
   @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "you see nooooothing")
   public static class FeatureTurnedOffException extends RuntimeException {
+  }
+
+  /**
+   * what is wrong with this method?
+   *
+   * @param deleteEntry which one?
+   */
+  @GetMapping("/delete/{id}")
+  public String deleteEntry(@PathVariable long id) {
+    var entry = entryService.findById(id);
+    if (entry == null) {
+      throw new MissingEntryException();
+    }
+    entryService.delete(entry);
+    return "redirect:/entries"; // Can I give them an 'oops?'
+  }
+
+  @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Entry Not Found")
+  public static class MissingEntryException extends RuntimeException {
   }
 
 }

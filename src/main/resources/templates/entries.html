@@ -61,6 +61,7 @@
                             <div class="entryText">
                                 <h3 th:text="${entry.title}">Title goes here</h3>
                                 <p th:text="${entry.complaint}">Complaint goes here</p>
+                                <a th:href='${"/entries/delete/" + entry.id}'>Delete</a>
                             </div>
                         </td>
                     </tr>
