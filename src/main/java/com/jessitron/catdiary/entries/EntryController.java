@@ -6,9 +6,6 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import com.jessitron.catdiary.cats.CatService;
-import com.jessitron.catdiary.entries.deletion.EntryDeletion;
-import com.jessitron.catdiary.entries.deletion.EntryDeletionRequest;
-import org.bouncycastle.i18n.MissingEntryException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
