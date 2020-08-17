@@ -33,6 +33,10 @@ public class EntryService {
     return entryRepo.findAllByCat(cat).stream().filter(entry -> !entry.hasBeenDeleted());
   }
 
+  public Stream<Entry> findPublicEntries() {
+    return findAll().filter(Entry::isPublic);
+  }
+
   public Stream<Entry> findAll() {
     return entryRepo.findAll().stream().filter(entry -> !entry.hasBeenDeleted());
   }

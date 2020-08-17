@@ -59,4 +59,8 @@ public class Entry {
         .findFirst().map(EntryPublicity::getPublicity)
         .orElse(Publicity.PRIVATE);
   }
+
+  public boolean isFromCat(Cat whoIsLooking) {
+    return whoIsLooking.getId().equals(cat.getId());
+  }
 }

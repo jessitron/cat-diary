@@ -63,7 +63,7 @@ public class EntryController {
     if (!showPublicEntries) {
       throw new FeatureTurnedOffException();
     }
-    List<EntryView> entries = entryService.findAll()
+    List<EntryView> entries = entryService.findPublicEntries()
         .map(EntryView::new)
         .sorted(Comparator.comparingLong(EntryView::getId).reversed())
         .collect(Collectors.toList());

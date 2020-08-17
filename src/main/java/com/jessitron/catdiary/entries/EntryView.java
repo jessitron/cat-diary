@@ -19,7 +19,7 @@ public class EntryView {
     this.title = data.getTitle();
     this.complaint = data.getComplaint();
     this.imageUrl = data.getImageUrl();
-    this.catName = data.getCat().getCatName().toString();
+    this.catName = data.getCat().getCatName().displayValue();
     this.showImage = this.imageUrl != null && !this.imageUrl.isBlank();
   }
 
