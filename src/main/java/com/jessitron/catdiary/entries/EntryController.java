@@ -113,4 +113,22 @@ public class EntryController {
   public static class MissingEntryException extends RuntimeException {
   }
 
+  @GetMapping("/make-public/{id}")
+  public String makeEntryPublic(@PathVariable long id, @AuthenticationPrincipal User catIdentity) {
+    var entry = entryService.findById(id);
+    if (entry == null) {
+      throw new MissingEntryException();
+    }
+    var cat = catService.getCatFromUsername(catIdentity.getUsername());
+    if (!entry.isFromCat(cat)) {
+      throw new NotSoFastException();
+    }
+    entryService.makePublic(entry);
+    return "redirect:/entries"; // Can I give them an 'oops?'
+  }
+
+  @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
+  public static class NotSoFastException extends RuntimeException {
+  }
+
 }

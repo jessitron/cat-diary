@@ -62,6 +62,12 @@
                                 <h3 th:text="${entry.title}">Title goes here</h3>
                                 <p th:text="${entry.complaint}">Complaint goes here</p>
                                 <a th:href='${"/entries/delete/" + entry.id}'>Delete</a>
+                                <span th:if="${entry.currentlyPublic}">
+                                 <a th:href='${"/entries/make-private/" + entry.id}'>Make Private</a>
+                                </span>
+                                <span th:unless="${entry.currentlyPublic}">
+                                  <a th:href='${"/entries/make-public/" + entry.id}'>Make Public</a>
+                                </span>
                             </div>
                         </td>
                     </tr>
