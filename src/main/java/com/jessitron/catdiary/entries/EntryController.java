@@ -99,8 +99,8 @@ public class EntryController {
    *
    * @param deleteEntry which one?
    */
-  @GetMapping("/delete/{id}")
-  public String deleteEntry(@PathVariable long id) {
+  @PostMapping("/delete")
+  public String deleteEntry(@RequestParam("entryId") long id) {
     var entry = entryService.findById(id);
     if (entry == null) {
       throw new MissingEntryException();

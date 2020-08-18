@@ -61,7 +61,12 @@
                             <div class="entryText">
                                 <h3 th:text="${entry.title}">Title goes here</h3>
                                 <p th:text="${entry.complaint}">Complaint goes here</p>
-                                <a th:href='${"/entries/delete/" + entry.id}'>Delete</a>
+                                <form action="/entries/delete" method="POST">
+                                    <input type="hidden" name="entryId" th:value="${entry.id}">
+                                    <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}"
+                                           th:value="${_csrf.token}"/>
+                                    <button type="submit">Delete</button>
+                                </form>
                                 <span th:if="${entry.currentlyPublic}">
                                  <a th:href='${"/entries/make-private/" + entry.id}'>Make Private</a>
                                 </span>
