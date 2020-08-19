@@ -19,7 +19,7 @@ public class CatName {
   }
 
   public String toString() {
-    return "Cat name starting with: " + stringValue.substring(0,3);
+    return "Cat name starting with: " + stringValue.substring(0, Integer.min(3, stringValue.length()));
   }
 
   public String displayValue() {
