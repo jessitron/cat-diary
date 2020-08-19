@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -38,23 +39,21 @@ public class CatController {
   }
 
   @PostMapping("/new")
-  public ModelAndView acceptNewCat(@ModelAttribute("catRequest") CatRequest catRequest) {
+  public String acceptNewCat(@ModelAttribute("catRequest") CatRequest catRequest, RedirectAttributes redirectAttributes) {
     var newIdentity = catService.create(new CatName(catRequest.catName),
         new PlainTextPassword(catRequest.password),
         new OriginalLives(catRequest.lives));
-    // this is terrible. There must be a better way
-    // but f*** if I can find it.
-    return new ModelAndView("redirect:/cat/welcome?catName=" + URLEncoder.encode(newIdentity.getCat().getCatName().displayValue(),
-        StandardCharsets.UTF_8) + "&username=" + URLEncoder.encode(newIdentity.getUsername(), StandardCharsets.UTF_8));
+    redirectAttributes.addFlashAttribute("catName", newIdentity.getCat().getCatName().displayValue());
+    redirectAttributes.addFlashAttribute("username", newIdentity.getUsername());
+    return "redirect:/cat/welcome";
   }
 
   @GetMapping("/welcome")
-  public String welcomeNewCat(@RequestParam("catName") String catNameInput,
-                              @RequestParam("username") String usernameInput,
+  public String welcomeNewCat(@ModelAttribute("catName") String catNameInput,
+                              @ModelAttribute("username") String usernameInput,
                               Model model) {
     var catName = new CatName(catNameInput);
     model.addAttribute("catName", catName.displayValue());
-    // TODO: validate username.
     model.addAttribute("username", usernameInput);
     return "welcome";
   }
