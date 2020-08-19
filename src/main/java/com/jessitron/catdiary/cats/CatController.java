@@ -11,7 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.servlet.ModelAndView;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Random;
 
 @Slf4j
@@ -35,17 +38,24 @@ public class CatController {
   }
 
   @PostMapping("/new")
-  public String acceptNewCat(@ModelAttribute("catRequest") CatRequest catRequest, Model model) {
+  public ModelAndView acceptNewCat(@ModelAttribute("catRequest") CatRequest catRequest) {
     var newIdentity = catService.create(new CatName(catRequest.catName),
         new PlainTextPassword(catRequest.password),
         new OriginalLives(catRequest.lives));
-    model.addAttribute("username", newIdentity.getUsername());
-    model.addAttribute("catName", catRequest.catName);
-    return "redirect:/cat/welcome";
+    // this is terrible. There must be a better way
+    // but f*** if I can find it.
+    return new ModelAndView("redirect:/cat/welcome?catName=" + URLEncoder.encode(newIdentity.getCat().getCatName().displayValue(),
+        StandardCharsets.UTF_8) + "&username=" + URLEncoder.encode(newIdentity.getUsername(), StandardCharsets.UTF_8));
   }
 
   @GetMapping("/welcome")
-  public String welcomeNewCat() {
+  public String welcomeNewCat(@RequestParam("catName") String catNameInput,
+                              @RequestParam("username") String usernameInput,
+                              Model model) {
+    var catName = new CatName(catNameInput);
+    model.addAttribute("catName", catName.displayValue());
+    // TODO: validate username.
+    model.addAttribute("username", usernameInput);
     return "welcome";
   }
 
