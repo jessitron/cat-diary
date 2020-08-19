@@ -68,10 +68,20 @@
                                     <button type="submit">Delete</button>
                                 </form>
                                 <span th:if="${entry.currentlyPublic}">
-                                 <a th:href='${"/entries/make-private/" + entry.id}'>Make Private</a>
+                                  <form action="/entries/make-private" method="POST">
+                                    <input type="hidden" name="entryId" th:value="${entry.id}">
+                                    <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}"
+                                           th:value="${_csrf.token}"/>
+                                    <button type="submit">Make Private</button>
+                                </form>
                                 </span>
                                 <span th:unless="${entry.currentlyPublic}">
-                                  <a th:href='${"/entries/make-public/" + entry.id}'>Make Public</a>
+                                   <form action="/entries/make-public" method="POST">
+                                    <input type="hidden" name="entryId" th:value="${entry.id}">
+                                    <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}"
+                                           th:value="${_csrf.token}"/>
+                                    <button type="submit">Make Public</button>
+                                </form>
                                 </span>
                             </div>
                         </td>
