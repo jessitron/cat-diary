@@ -12,6 +12,7 @@ import com.jessitron.catdiary.cats.Cat;
 import com.jessitron.catdiary.entries.deletion.EntryDeletion;
 import com.jessitron.catdiary.entries.publicity.Publicity;
 import com.jessitron.catdiary.entries.publicity.EntryPublicity;
+import com.jessitron.catdiary.pictures.CatPictureUrl;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -41,8 +42,8 @@ public class Entry {
   private final String title;
   private Date timestamp;
   private final String complaint;
+  private final CatPictureUrl imageUrl;
 
-  private final String imageUrl;
 
   @PrePersist
   void timestamp() {

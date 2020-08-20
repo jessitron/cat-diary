@@ -6,6 +6,8 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import com.jessitron.catdiary.cats.CatService;
+import com.jessitron.catdiary.pictures.CatPictureService;
+import com.jessitron.catdiary.pictures.CatPictureUrl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -29,10 +31,13 @@ public class EntryController {
 
   private final CatService catService;
 
+  private final CatPictureService catPictureService;
+
   @Autowired
-  public EntryController(EntryService entryService, CatService catService) {
+  public EntryController(EntryService entryService, CatService catService, CatPictureService catPictureService) {
     this.entryService = entryService;
     this.catService = catService;
+    this.catPictureService = catPictureService;
   }
 
   @ModelAttribute
@@ -86,7 +91,9 @@ public class EntryController {
   public String acceptEntry(EntryRequest newEntry, @AuthenticationPrincipal User catIdentity) {
     log.info("Got a new diary entry: " + newEntry.getTitle());
     var cat = catService.getCatFromUsername(catIdentity.getUsername());
-    entryService.save(cat, newEntry.getTitle(), newEntry.getComplaint(), newEntry.getImageUrl());
+    var url = CatPictureUrl.mightBeEmpty(newEntry.getImageUrl(), catPictureService::randomCatPicture);
+    log.info("Resulting cat picture URL: " + url.displayValue());
+    entryService.save(cat, newEntry.getTitle(), url, newEntry.getComplaint());
     return "redirect:/entries";
   }
 

@@ -19,7 +19,7 @@ public class EntryView {
     this.id = data.getId();
     this.title = data.getTitle();
     this.complaint = data.getComplaint();
-    this.imageUrl = data.getImageUrl();
+    this.imageUrl = data.getImageUrl().displayValue();
     this.catName = data.getCat().getCatName().displayValue();
     this.showImage = this.imageUrl != null && !this.imageUrl.isBlank();
     this.currentlyPublic = data.isPublic();

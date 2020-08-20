@@ -6,6 +6,7 @@ import com.jessitron.catdiary.entries.deletion.EntryDeletionRepository;
 import com.jessitron.catdiary.entries.publicity.EntryPublicity;
 import com.jessitron.catdiary.entries.publicity.EntryPublicityRepository;
 import com.jessitron.catdiary.entries.publicity.Publicity;
+import com.jessitron.catdiary.pictures.CatPictureUrl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +26,8 @@ public class EntryService {
     this.entryPublicityRepo = entryPublicityRepo;
   }
 
-  public Entry save(Cat cat, String complaint, String imageUrl, String title) {
-    return entryRepo.save(new Entry(cat, complaint, imageUrl, title));
+  public Entry save(Cat cat, String title, CatPictureUrl imageUrl, String complaint) {
+    return entryRepo.save(new Entry(cat, title, complaint, imageUrl));
   }
 
   public Stream<Entry> findAllByCat(Cat cat) {

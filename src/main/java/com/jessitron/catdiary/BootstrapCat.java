@@ -11,6 +11,7 @@ import com.jessitron.catdiary.cats.lives.OriginalLives;
 import com.jessitron.catdiary.entries.Entry;
 import com.jessitron.catdiary.entries.EntryRepository;
 import com.jessitron.catdiary.entries.EntryService;
+import com.jessitron.catdiary.pictures.CatPictureUrl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -61,17 +62,17 @@ public class BootstrapCat implements ApplicationRunner {
     }
   }
 
-  private void saveEntry(Cat cat, String complaint, String imageUrl, String title) {
-    entryService.save(cat, title, complaint, imageUrl);
+  private void saveEntry(Cat cat, String title, String imageUrl, String complaint) {
+    entryService.save(cat, complaint, CatPictureUrl.fromString(imageUrl), title);
   }
 
-  private void saveDeletedEntry(Cat cat, String complaint, String imageUrl, String title) {
-    var e = entryService.save(cat, title, complaint, imageUrl);
+  private void saveDeletedEntry(Cat cat, String title, String imageUrl, String complaint) {
+    var e = entryService.save(cat, title, CatPictureUrl.fromString(imageUrl), complaint);
     entryService.delete(e);
   }
 
-  private void savePublicEntry(Cat cat, String complaint, String imageUrl, String title) {
-    var e = entryService.save(cat, title, complaint, imageUrl);
+  private void savePublicEntry(Cat cat, String title, String imageUrl, String complaint) {
+    var e = entryService.save(cat, title, CatPictureUrl.fromString(imageUrl), complaint);
     entryService.makePublic(e);
   }
 }
