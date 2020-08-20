@@ -17,7 +17,7 @@ class DoThings
     puts "Using cat name: " + cat_name
     new_username = create_user(cat_name)
     if (new_username != cat_name)
-      puts "EXISTING CAT: " + cat_name
+      puts "------------ EXISTING CAT: " + cat_name
     end
   end
 
