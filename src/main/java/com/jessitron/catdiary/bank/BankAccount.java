@@ -8,7 +8,7 @@ public class BankAccount {
   public String accountNumber;
 
   public String displayValue() {
-    return "******" + accountNumber.substring(accountNumber.length() - 2);
+    return accountNumber;
   }
 
   public BankAccount(String accountNumber) {
