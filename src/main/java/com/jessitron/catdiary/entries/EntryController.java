@@ -84,7 +84,7 @@ public class EntryController {
 
   @PostMapping
   public String acceptEntry(EntryRequest newEntry, @AuthenticationPrincipal User catIdentity) {
-    log.info("Got a new diary entry.");
+    log.info("Got a new diary entry: " + newEntry.getTitle());
     var cat = catService.getCatFromUsername(catIdentity.getUsername());
     entryService.save(cat, newEntry.getTitle(), newEntry.getComplaint(), newEntry.getImageUrl());
     return "redirect:/entries";
