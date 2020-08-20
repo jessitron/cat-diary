@@ -96,8 +96,6 @@ public class EntryController {
 
   /**
    * what is wrong with this method?
-   *
-   * @param deleteEntry which one?
    */
   @PostMapping("/delete")
   public String deleteEntry(@RequestParam("entryId") long id) {
@@ -106,7 +104,7 @@ public class EntryController {
       throw new MissingEntryException();
     }
     entryService.delete(entry);
-    return "redirect:/entries"; // Can I give them an 'oops?'
+    return "redirect:/entries"; // Can I give them an 'oops?' for undo?
   }
 
   @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Entry Not Found")
