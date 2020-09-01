@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.jessitron.catdiary.cats.CatService;
 import com.jessitron.catdiary.pictures.CatPictureService;
@@ -47,11 +48,14 @@ public class EntryController {
 
   @GetMapping
   public String entries(Model model,
-                        @RequestParam(value = "all", defaultValue = "false") boolean seeAll,
+                        @RequestParam(value = "seeAllCats", defaultValue = "off") boolean seeAll,
                         @AuthenticationPrincipal User catIdentity,
                         HttpServletResponse response) {
     var cat = catService.getCatFromUsername(catIdentity.getUsername());
-    List<EntryView> entries = entryService.findAllByCat(cat)
+    var source = seeAll ?
+        Stream.concat(entryService.findAllByCat(cat), entryService.findPublicEntries()) :
+        entryService.findAllByCat(cat);
+    List<EntryView> entries = source
         .map(EntryView::new)
         .sorted(Comparator.comparingLong(EntryView::getId).reversed())
         .collect(Collectors.toList());
