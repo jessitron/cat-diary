@@ -58,7 +58,8 @@
                             </div>
                         </td>
                         <td>
-                            <div class="entryText">
+                            <div class="entryText"
+                                 th:classappend="${entry.currentlyPublic ? 'publicEntry' : 'privateEntry'}">
                                 <h3 th:text="${entry.title}">Title goes here</h3>
                                 <p th:utext="${entry.complaint}">Complaint goes here</p>
                                 <form action="/entries/delete" method="POST">
