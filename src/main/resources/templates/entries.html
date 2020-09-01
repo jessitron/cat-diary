@@ -11,9 +11,6 @@
 <body>
 <div th:replace="fragments/header :: header"></div>
 <main class="masthead text-white text-center">
-    <div class="silly" th:if="${showPublicEntries}">
-        <span class="excited">New!</span> <a href="/entries/public">See what other cats are saying</a>
-    </div>
     <div class="container">
         <div class="row">
             <div class="col">
@@ -44,6 +41,7 @@
             </div>
             <div class="col">
                 <h1 class="mb-5">Prior complaints</h1>
+                <span th:if="${showPublicEntries}">
                 <form>
                     <div class="custom-control custom-switch">
                         <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}"
@@ -54,6 +52,7 @@
                         <label class="custom-control-label" for="seeAllCats">See All Cats</label>
                     </div>
                 </form>
+                </span>
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -81,6 +80,8 @@
                                            th:value="${_csrf.token}"/>
                                     <button type="submit">Delete</button>
                                 </form>
+                                <span th:if="${showPublicEntries}">
+
                                 <form action="/entries/publicity" method="POST">
                                     <div class="custom-control custom-switch">
                                         <input type="hidden" name="entryId" th:value="${entry.id}">
@@ -90,9 +91,11 @@
                                         <input type="checkbox" class="custom-control-input" th:name="publicity"
                                                th:id='${"publicity" + entry.id}' th:checked="${entry.currentlyPublic}"
                                                onchange="form.submit()">
-                                        <label class="custom-control-label" th:for='${"publicity" + entry.id}'>Public</label>
+                                        <label class="custom-control-label"
+                                               th:for='${"publicity" + entry.id}'>Public</label>
                                     </div>
                                 </form>
+                                </span>
                             </div>
                         </td>
                     </tr>
