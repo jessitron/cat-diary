@@ -51,15 +51,15 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="entry : ${entries}">
+                    <tr th:each="entry : ${entries}"
+                        th:classappend="${entry.currentlyPublic ? 'publicEntry' : 'privateEntry'}">
                         <td>
                             <div class="entryImage" th:if="${entry.showImage}">
                                 <img class="selfie" th:src="${entry.imageUrl}"/>
                             </div>
                         </td>
                         <td>
-                            <div class="entryText"
-                                 th:classappend="${entry.currentlyPublic ? 'publicEntry' : 'privateEntry'}">
+                            <div class="entryText">
                                 <h3 th:text="${entry.title}">Title goes here</h3>
                                 <p th:utext="${entry.complaint}">Complaint goes here</p>
                                 <form action="/entries/delete" method="POST">
