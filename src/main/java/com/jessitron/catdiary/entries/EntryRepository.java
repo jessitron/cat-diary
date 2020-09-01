@@ -3,6 +3,7 @@ package com.jessitron.catdiary.entries;
 import java.util.List;
 
 import com.jessitron.catdiary.cats.Cat;
+import com.jessitron.catdiary.entries.publicity.Publicity;
 import org.springframework.data.repository.CrudRepository;
 
 public interface EntryRepository extends CrudRepository<Entry, Long> {

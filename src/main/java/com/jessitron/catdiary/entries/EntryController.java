@@ -53,7 +53,7 @@ public class EntryController {
                         HttpServletResponse response) {
     var cat = catService.getCatFromUsername(catIdentity.getUsername());
     var source = seeAll ?
-        Stream.concat(entryService.findAllByCat(cat), entryService.findPublicEntries()) :
+        entryService.findEntriesViewableBy(cat) :
         entryService.findAllByCat(cat);
     List<EntryView> entries = source
         .map(EntryView::new)

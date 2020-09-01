@@ -50,6 +50,11 @@ public class EntryService {
     return entryRepo.findById(entryId).orElse(null);
   }
 
+  public Stream<Entry> findEntriesViewableBy(Cat cat) {
+    return entryRepo.findAll().stream().filter(entry -> !entry.hasBeenDeleted()).filter(entry ->
+        entry.isFromCat(cat) || entry.isPublic());
+  }
+
   public EntryPublicity makePublic(Entry entry) {
     return entryPublicityRepo.save(new EntryPublicity(entry, Publicity.PUBLIC));
   }
