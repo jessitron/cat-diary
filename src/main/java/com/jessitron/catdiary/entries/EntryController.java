@@ -131,7 +131,6 @@ public class EntryController {
   public RedirectView changePublicity(@RequestParam("entryId") long id,
                                       @RequestParam(value = "publicity", defaultValue = "off") boolean isPublic,
                                       @RequestParam("seeAllCats") boolean seeAllCats,
-                                      Model model,
                                       @AuthenticationPrincipal User catIdentity) {
     log.info("Hey! Publicity is " + isPublic);
     var entry = entryService.findById(id);
@@ -147,8 +146,7 @@ public class EntryController {
     } else {
       entryService.makePrivate(entry);
     }
-    model.addAttribute("seeAllCats", seeAllCats);
-    var res = new RedirectView("redirect:/entries?seeAllCats={seeAllCats}");
+    var res = new RedirectView("/entries?seeAllCats=" + (seeAllCats ? "on" : "off"));
     res.setPropagateQueryParams(true);
     return res;
   }
