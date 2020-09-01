@@ -46,7 +46,10 @@ public class EntryController {
   }
 
   @GetMapping
-  public String entries(Model model, @AuthenticationPrincipal User catIdentity, HttpServletResponse response) {
+  public String entries(Model model,
+                        @RequestParam(value = "all", defaultValue = "false") boolean seeAll,
+                        @AuthenticationPrincipal User catIdentity,
+                        HttpServletResponse response) {
     var cat = catService.getCatFromUsername(catIdentity.getUsername());
     List<EntryView> entries = entryService.findAllByCat(cat)
         .map(EntryView::new)
@@ -57,6 +60,7 @@ public class EntryController {
     model.addAttribute("message", message);
     model.addAttribute("newEntry", new EntryRequest());
     model.addAttribute("catSound", imagineCatSound());
+    model.addAttribute("seeAll", seeAll);
 
     response.addCookie(new Cookie("catSound", imagineCatSound())); // gratuitous cookies
     response.addCookie(new Cookie("myCatName", cat.getCatName().stringValue));

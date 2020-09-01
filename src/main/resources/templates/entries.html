@@ -43,6 +43,16 @@
             </div>
             <div class="col">
                 <h1 class="mb-5">Prior complaints</h1>
+                <form action="/entries/seeAllCatsPlease">
+                    <div class="custom-control custom-switch">
+                        <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}"
+                               th:value="${_csrf.token}"/>
+                        <input type="checkbox" class="custom-control-input" th:name="seeAllCats"
+                               id="seeAllCats" th:checked="${seeAll}"
+                               onchange="form.submit()">
+                        <label class="custom-control-label" for="seeAllCats">See All Cats</label>
+                    </div>
+                </form>
                 <table class="table table-striped">
                     <thead>
                     <tr>
