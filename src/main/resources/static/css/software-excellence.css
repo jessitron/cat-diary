@@ -149,7 +149,9 @@ footer.footer {
 }
 
 .privateEntry {
-    border: red 1px solid;
+    border-width: 5px;
+        border-color: #3c372c;
+        border-style: dotted;
 }
 
 .selfie {
