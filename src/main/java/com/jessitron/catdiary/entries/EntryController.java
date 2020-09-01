@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -127,7 +128,11 @@ public class EntryController {
   }
 
   @PostMapping("/publicity")
-  public String changePublicity(@RequestParam("entryId") long id, @RequestParam(value = "publicity", defaultValue = "off") boolean isPublic, @AuthenticationPrincipal User catIdentity) {
+  public RedirectView changePublicity(@RequestParam("entryId") long id,
+                                      @RequestParam(value = "publicity", defaultValue = "off") boolean isPublic,
+                                      @RequestParam("seeAllCats") boolean seeAllCats,
+                                      Model model,
+                                      @AuthenticationPrincipal User catIdentity) {
     log.info("Hey! Publicity is " + isPublic);
     var entry = entryService.findById(id);
     if (entry == null) {
@@ -142,7 +147,10 @@ public class EntryController {
     } else {
       entryService.makePrivate(entry);
     }
-    return "redirect:/entries";
+    model.addAttribute("seeAllCats", seeAllCats);
+    var res = new RedirectView("redirect:/entries?seeAllCats={seeAllCats}");
+    res.setPropagateQueryParams(true);
+    return res;
   }
 
   @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
