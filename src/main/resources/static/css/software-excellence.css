@@ -154,6 +154,10 @@ footer.footer {
         border-style: dotted;
 }
 
+.entryCatName {
+font-family: cursive;
+}
+
 .selfie {
     height: 128px;
     background-color: white;
