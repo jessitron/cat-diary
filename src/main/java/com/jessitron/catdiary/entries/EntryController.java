@@ -133,7 +133,7 @@ public class EntryController {
   }
 
   @PostMapping("/publicity")
-  public String changePublicity(@RequestParam("entryId") long id, @RequestParam("publicity") boolean isPublic, @AuthenticationPrincipal User catIdentity) {
+  public String changePublicity(@RequestParam("entryId") long id, @RequestParam(value = "publicity", defaultValue = "off") boolean isPublic, @AuthenticationPrincipal User catIdentity) {
     log.info("Hey! Publicity is " + isPublic);
     var entry = entryService.findById(id);
     if (entry == null) {

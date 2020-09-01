@@ -73,7 +73,8 @@
                                         <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}"
                                                th:value="${_csrf.token}"/>
                                         <input type="checkbox" class="custom-control-input" th:name="publicity"
-                                               id="publicity" onchange="form.submit()">
+                                               id="publicity" th:checked="${entry.currentlyPublic}"
+                                               onchange="form.submit()">
                                         <label class="custom-control-label" for="publicity">Public</label>
                                     </div>
                                 </form>
