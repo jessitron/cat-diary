@@ -132,6 +132,25 @@ public class EntryController {
     return "redirect:/entries"; // Can I give them an 'oops?'
   }
 
+  @PostMapping("/publicity")
+  public String changePublicity(@RequestParam("entryId") long id, @RequestParam("publicity") boolean isPublic, @AuthenticationPrincipal User catIdentity) {
+    log.info("Hey! Publicity is " + isPublic);
+    var entry = entryService.findById(id);
+    if (entry == null) {
+      throw new MissingEntryException();
+    }
+    var cat = catService.getCatFromUsername(catIdentity.getUsername());
+    if (!entry.isFromCat(cat)) {
+      throw new NotSoFastException();
+    }
+    if (isPublic) {
+      entryService.makePublic(entry);
+    } else {
+      entryService.makePrivate(entry);
+    }
+    return "redirect:/entries";
+  }
+
   @PostMapping("/make-private")
   public String makeEntryPrivate(@RequestParam("entryId") long id, @AuthenticationPrincipal User catIdentity) {
     var entry = entryService.findById(id);
