@@ -37,6 +37,7 @@
                                    placeholder="Selfie URL"/>
                         </div>
                     </div>
+                    <input type="hidden" name="seeAllCats" th:value="${seeAll}">
                     <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                     <button th:text="${catSound}"></button>
                 </form>
@@ -75,6 +76,7 @@
                                 <p th:utext="${entry.complaint}">Complaint goes here</p>
                                 <form action="/entries/delete" method="POST">
                                     <input type="hidden" name="entryId" th:value="${entry.id}">
+                                    <input type="hidden" name="seeAllCats" th:value="${seeAll}">
                                     <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}"
                                            th:value="${_csrf.token}"/>
                                     <button type="submit">Delete</button>
@@ -84,6 +86,7 @@
                                         <input type="hidden" name="entryId" th:value="${entry.id}">
                                         <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}"
                                                th:value="${_csrf.token}"/>
+                                        <input type="hidden" name="seeAllCats" th:value="${seeAll}">
                                         <input type="checkbox" class="custom-control-input" th:name="publicity"
                                                th:id='${"publicity" + entry.id}' th:checked="${entry.currentlyPublic}"
                                                onchange="form.submit()">
