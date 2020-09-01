@@ -118,20 +118,6 @@ public class EntryController {
   public static class MissingEntryException extends RuntimeException {
   }
 
-  @PostMapping("/make-public")
-  public String makeEntryPublic(@RequestParam("entryId") long id, @AuthenticationPrincipal User catIdentity) {
-    var entry = entryService.findById(id);
-    if (entry == null) {
-      throw new MissingEntryException();
-    }
-    var cat = catService.getCatFromUsername(catIdentity.getUsername());
-    if (!entry.isFromCat(cat)) {
-      throw new NotSoFastException();
-    }
-    entryService.makePublic(entry);
-    return "redirect:/entries"; // Can I give them an 'oops?'
-  }
-
   @PostMapping("/publicity")
   public String changePublicity(@RequestParam("entryId") long id, @RequestParam(value = "publicity", defaultValue = "off") boolean isPublic, @AuthenticationPrincipal User catIdentity) {
     log.info("Hey! Publicity is " + isPublic);
@@ -149,20 +135,6 @@ public class EntryController {
       entryService.makePrivate(entry);
     }
     return "redirect:/entries";
-  }
-
-  @PostMapping("/make-private")
-  public String makeEntryPrivate(@RequestParam("entryId") long id, @AuthenticationPrincipal User catIdentity) {
-    var entry = entryService.findById(id);
-    if (entry == null) {
-      throw new MissingEntryException();
-    }
-    var cat = catService.getCatFromUsername(catIdentity.getUsername());
-    if (!entry.isFromCat(cat)) {
-      throw new NotSoFastException();
-    }
-    entryService.makePrivate(entry);
-    return "redirect:/entries"; // Can I give them an 'oops?'
   }
 
   @ResponseStatus(code = HttpStatus.UNAUTHORIZED)

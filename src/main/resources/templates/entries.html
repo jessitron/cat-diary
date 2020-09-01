@@ -78,24 +78,6 @@
                                         <label class="custom-control-label" for="publicity">Public</label>
                                     </div>
                                 </form>
-                                <span th:if="${showPublicEntries}">
-                                <span th:if="${entry.currentlyPublic}">
-                                  <form action="/entries/make-private" method="POST">
-                                    <input type="hidden" name="entryId" th:value="${entry.id}">
-                                    <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}"
-                                           th:value="${_csrf.token}"/>
-                                    <button type="submit">Make Private</button>
-                                </form>
-                                </span>
-                                <span th:unless="${entry.currentlyPublic}">
-                                   <form action="/entries/make-public" method="POST">
-                                    <input type="hidden" name="entryId" th:value="${entry.id}">
-                                    <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}"
-                                           th:value="${_csrf.token}"/>
-                                    <button type="submit">Make Public</button>
-                                </form>
-                                </span>
-                                </span>
                             </div>
                         </td>
                     </tr>
