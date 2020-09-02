@@ -73,28 +73,30 @@
                             <div class="entryText">
                                 <h3 th:text="${entry.title}">Title goes here</h3>
                                 <p th:utext="${entry.complaint}">Complaint goes here</p>
-                                <form action="/entries/delete" method="POST">
-                                    <input type="hidden" name="entryId" th:value="${entry.id}">
-                                    <input type="hidden" name="seeAllCats" th:value="${seeAll}">
-                                    <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}"
-                                           th:value="${_csrf.token}"/>
-                                    <button type="submit">Delete</button>
-                                </form>
-                                <span th:if="${showPublicEntries}">
-
-                                <form action="/entries/publicity" method="POST">
-                                    <div class="custom-control custom-switch">
+                                <span th:if="${entry.isUpdatableBy(loggedInCat)}">
+                                    <form action="/entries/delete" method="POST">
                                         <input type="hidden" name="entryId" th:value="${entry.id}">
+                                        <input type="hidden" name="seeAllCats" th:value="${seeAll}">
                                         <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}"
                                                th:value="${_csrf.token}"/>
-                                        <input type="hidden" name="seeAllCats" th:value="${seeAll}">
-                                        <input type="checkbox" class="custom-control-input" th:name="publicity"
-                                               th:id='${"publicity" + entry.id}' th:checked="${entry.currentlyPublic}"
-                                               onchange="form.submit()">
-                                        <label class="custom-control-label"
-                                               th:for='${"publicity" + entry.id}'>Public</label>
-                                    </div>
-                                </form>
+                                        <button type="submit">Delete</button>
+                                    </form>
+                                    <span th:if="${showPublicEntries}">
+                                    <form action="/entries/publicity" method="POST">
+                                        <div class="custom-control custom-switch">
+                                            <input type="hidden" name="entryId" th:value="${entry.id}">
+                                            <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}"
+                                                   th:value="${_csrf.token}"/>
+                                            <input type="hidden" name="seeAllCats" th:value="${seeAll}">
+                                            <input type="checkbox" class="custom-control-input" th:name="publicity"
+                                                   th:id='${"publicity" + entry.id}'
+                                                   th:checked="${entry.currentlyPublic}"
+                                                   onchange="form.submit()">
+                                            <label class="custom-control-label"
+                                                   th:for='${"publicity" + entry.id}'>Public</label>
+                                        </div>
+                                    </form>
+                                    </span>
                                 </span>
                             </div>
                         </td>

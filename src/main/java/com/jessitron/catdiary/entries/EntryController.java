@@ -4,7 +4,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import com.jessitron.catdiary.cats.CatService;
 import com.jessitron.catdiary.pictures.CatPictureService;
@@ -66,6 +65,7 @@ public class EntryController {
     model.addAttribute("newEntry", new EntryRequest());
     model.addAttribute("catSound", imagineCatSound());
     model.addAttribute("seeAll", seeAll);
+    model.addAttribute("loggedInCat", cat);
 
     response.addCookie(new Cookie("catSound", imagineCatSound())); // gratuitous cookies
     response.addCookie(new Cookie("myCatName", cat.getCatName().stringValue));
@@ -97,13 +97,17 @@ public class EntryController {
   }
 
   @PostMapping
-  public String acceptEntry(EntryRequest newEntry, @AuthenticationPrincipal User catIdentity) {
+  public RedirectView acceptEntry(EntryRequest newEntry,
+                                  @RequestParam("seeAllCats") boolean seeAllCats,
+                                  @AuthenticationPrincipal User catIdentity) {
     log.info("Got a new diary entry: " + newEntry.getTitle());
     var cat = catService.getCatFromUsername(catIdentity.getUsername());
     var url = CatPictureUrl.mightBeEmpty(newEntry.getImageUrl(), catPictureService::randomCatPicture);
     log.info("Resulting cat picture URL: " + url.displayValue());
     entryService.save(cat, newEntry.getTitle(), url, newEntry.getComplaint());
-    return "redirect:/entries";
+    var res = new RedirectView("/entries?seeAllCats=" + (seeAllCats ? "on" : "off"));
+    res.setPropagateQueryParams(true);
+    return res;
   }
 
   @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "you see nooooothing")
@@ -114,13 +118,16 @@ public class EntryController {
    * what is wrong with this method?
    */
   @PostMapping("/delete")
-  public String deleteEntry(@RequestParam("entryId") long id) {
+  public RedirectView deleteEntry(@RequestParam("entryId") long id,
+                                  @RequestParam("seeAllCats") boolean seeAllCats) {
     var entry = entryService.findById(id);
     if (entry == null) {
       throw new MissingEntryException();
     }
     entryService.delete(entry);
-    return "redirect:/entries"; // Can I give them an 'oops?' for undo?
+    var res = new RedirectView("/entries?seeAllCats=" + (seeAllCats ? "on" : "off"));
+    res.setPropagateQueryParams(true);
+    return res;
   }
 
   @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Entry Not Found")
