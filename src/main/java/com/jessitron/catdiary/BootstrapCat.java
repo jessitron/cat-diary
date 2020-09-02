@@ -52,18 +52,28 @@ public class BootstrapCat implements ApplicationRunner {
     var pinchoReport = catService.createIfNotExists(new CatName("Pincho"), new PlainTextPassword("smart"), new OriginalLives(8));
     if (pinchoReport.isCreated()) {
       var pincho = pinchoReport.getCatIdentity().getCat();
-      saveEntry(pincho, "You cannot see my internal shape when I fold into a bean", "https://raw.githubusercontent.com/jessitron/cat-diary/main/cat-pictures/pincho_yoga.jpg", "I am a pincho bean");
-      saveEntry(pincho, "My unicorn horn is heavy.", "https://raw.githubusercontent.com/jessitron/cat-diary/main/cat-pictures/pincho_unicorn.jpg", "I bear the burden of magic");
-      saveDeletedEntry(pincho, "Violets are blue\r\nI am the most handsome cat\r\nand you think so too.",
+      saveEntry(pincho, "You cannot see my internal shape when I fold into a bean",
+          "https://raw.githubusercontent.com/jessitron/cat-diary/main/cat-pictures/pincho_yoga.jpg",
+          "I am a pincho bean");
+      saveEntry(pincho, "My unicorn horn is <b>heavy</b>.",
+          "https://raw.githubusercontent.com/jessitron/cat-diary/main/cat-pictures/pincho_unicorn.jpg",
+          "I bear the burden of <b>magic</b>");
+      saveDeletedEntry(pincho, "Violets are <span style='color: blue'>blue</span>\r\nI am the most handsome cat\r\nand you think so too.",
           "https://raw.githubusercontent.com/jessitron/cat-diary/main/cat-pictures/pincho_strawhat.jpg",
           "Roses are red");
-      savePublicEntry(pincho, "You can become trapped in merriment", "https://raw.githubusercontent.com/jessitron/cat-diary/main/cat-pictures/pincho_santa.jpg", "Beware Christmas");
-      saveEntry(pincho, "I am dangerous, and fancy", "https://raw.githubusercontent.com/jessitron/cat-diary/main/cat-pictures/pincho_purrate_2.jpg", "Fear me");
+      savePublicEntry(pincho,
+          "Beware Christmas",
+          "https://raw.githubusercontent.com/jessitron/cat-diary/main/cat-pictures/pincho_santa.jpg",
+          "You can become trapped in <span style='color: red'>merriment</span>"
+      );
+      saveEntry(pincho, "I am dangerous, and <i>fancy</i>",
+          "https://raw.githubusercontent.com/jessitron/cat-diary/main/cat-pictures/pincho_purrate_2.jpg",
+          "Fear me");
     }
   }
 
-  private void saveEntry(Cat cat, String title, String imageUrl, String complaint) {
-    entryService.save(cat, complaint, CatPictureUrl.fromString(imageUrl), title);
+  private void saveEntry(Cat cat, String complaint, String imageUrl, String title) {
+    entryService.save(cat, title, CatPictureUrl.fromString(imageUrl), complaint);
   }
 
   private void saveDeletedEntry(Cat cat, String title, String imageUrl, String complaint) {
