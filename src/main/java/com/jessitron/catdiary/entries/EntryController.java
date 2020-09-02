@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 @Controller
 @RequestMapping("/entries")
+@SessionAttributes("seeAllCats")
 public class EntryController {
 
   private final EntryService entryService;
@@ -46,12 +47,19 @@ public class EntryController {
     model.addAttribute("showPublicEntries", showPublicEntries);
   }
 
+  @PostMapping("/setSeeAllCats")
+  public String setSeeAllCats(Model model,
+                              @RequestParam(value = "seeAllCats", defaultValue = "off") boolean seeAllCats) {
+    model.addAttribute("seeAllCats", seeAllCats);
+    return "redirect:/entries";
+  }
+
   @GetMapping
   public String entries(Model model,
-                        @RequestParam(value = "seeAllCats", defaultValue = "off") boolean seeAll,
                         @AuthenticationPrincipal User catIdentity,
                         HttpServletResponse response) {
     var cat = catService.getCatFromUsername(catIdentity.getUsername());
+    boolean seeAll = model.containsAttribute("seeAllCats") && (boolean) model.getAttribute("seeAllCats");
     var source = seeAll ?
         entryService.findEntriesViewableBy(cat) :
         entryService.findAllByCat(cat);
@@ -64,7 +72,6 @@ public class EntryController {
     model.addAttribute("message", message);
     model.addAttribute("newEntry", new EntryRequest());
     model.addAttribute("catSound", imagineCatSound());
-    model.addAttribute("seeAll", seeAll);
     model.addAttribute("loggedInCat", cat);
 
     response.addCookie(new Cookie("catSound", imagineCatSound())); // gratuitous cookies
@@ -97,17 +104,14 @@ public class EntryController {
   }
 
   @PostMapping
-  public RedirectView acceptEntry(EntryRequest newEntry,
-                                  @RequestParam("seeAllCats") boolean seeAllCats,
-                                  @AuthenticationPrincipal User catIdentity) {
+  public String acceptEntry(EntryRequest newEntry,
+                            @AuthenticationPrincipal User catIdentity) {
     log.info("Got a new diary entry: " + newEntry.getTitle());
     var cat = catService.getCatFromUsername(catIdentity.getUsername());
     var url = CatPictureUrl.mightBeEmpty(newEntry.getImageUrl(), catPictureService::randomCatPicture);
     log.info("Resulting cat picture URL: " + url.displayValue());
     entryService.save(cat, newEntry.getTitle(), url, newEntry.getComplaint());
-    var res = new RedirectView("/entries?seeAllCats=" + (seeAllCats ? "on" : "off"));
-    res.setPropagateQueryParams(true);
-    return res;
+    return "redirect:/entries";
   }
 
   @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "you see nooooothing")
@@ -118,16 +122,13 @@ public class EntryController {
    * what is wrong with this method?
    */
   @PostMapping("/delete")
-  public RedirectView deleteEntry(@RequestParam("entryId") long id,
-                                  @RequestParam("seeAllCats") boolean seeAllCats) {
+  public String deleteEntry(@RequestParam("entryId") long id) {
     var entry = entryService.findById(id);
     if (entry == null) {
       throw new MissingEntryException();
     }
     entryService.delete(entry);
-    var res = new RedirectView("/entries?seeAllCats=" + (seeAllCats ? "on" : "off"));
-    res.setPropagateQueryParams(true);
-    return res;
+    return "redirect:/entries";
   }
 
   @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Entry Not Found")
@@ -135,9 +136,8 @@ public class EntryController {
   }
 
   @PostMapping("/publicity")
-  public RedirectView changePublicity(@RequestParam("entryId") long id,
+  public String changePublicity(@RequestParam("entryId") long id,
                                       @RequestParam(value = "publicity", defaultValue = "off") boolean isPublic,
-                                      @RequestParam("seeAllCats") boolean seeAllCats,
                                       @AuthenticationPrincipal User catIdentity) {
     log.info("Hey! Publicity is " + isPublic);
     var entry = entryService.findById(id);
@@ -153,9 +153,7 @@ public class EntryController {
     } else {
       entryService.makePrivate(entry);
     }
-    var res = new RedirectView("/entries?seeAllCats=" + (seeAllCats ? "on" : "off"));
-    res.setPropagateQueryParams(true);
-    return res;
+    return "redirect:/entries";
   }
 
   @ResponseStatus(code = HttpStatus.UNAUTHORIZED)

@@ -34,7 +34,6 @@
                                    placeholder="Selfie URL"/>
                         </div>
                     </div>
-                    <input type="hidden" name="seeAllCats" th:value="${seeAll}">
                     <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                     <button th:text="${catSound}"></button>
                 </form>
@@ -42,12 +41,12 @@
             <div class="col">
                 <h1 class="mb-5">Prior complaints</h1>
                 <span th:if="${showPublicEntries}">
-                <form>
+                <form method="POST" action="/entries/setSeeAllCats">
                     <div class="custom-control custom-switch">
                         <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}"
                                th:value="${_csrf.token}"/>
                         <input type="checkbox" class="custom-control-input" th:name="seeAllCats"
-                               id="seeAllCats" th:checked="${seeAll}"
+                               id="seeAllCats" th:checked="${seeAllCats}"
                                onchange="form.submit()">
                         <label class="custom-control-label" for="seeAllCats">See All Cats</label>
                     </div>
@@ -76,7 +75,6 @@
                                 <span th:if="${entry.isUpdatableBy(loggedInCat)}">
                                     <form action="/entries/delete" method="POST">
                                         <input type="hidden" name="entryId" th:value="${entry.id}">
-                                        <input type="hidden" name="seeAllCats" th:value="${seeAll}">
                                         <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}"
                                                th:value="${_csrf.token}"/>
                                         <button type="submit">Delete</button>
@@ -87,7 +85,6 @@
                                             <input type="hidden" name="entryId" th:value="${entry.id}">
                                             <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}"
                                                    th:value="${_csrf.token}"/>
-                                            <input type="hidden" name="seeAllCats" th:value="${seeAll}">
                                             <input type="checkbox" class="custom-control-input" th:name="publicity"
                                                    th:id='${"publicity" + entry.id}'
                                                    th:checked="${entry.currentlyPublic}"
