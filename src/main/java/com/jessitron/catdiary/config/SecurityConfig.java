@@ -65,9 +65,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
         .httpBasic();
 
-    // form.submit() => sha256 => base64
-    var formSubmit = "sha256-NTM2OGM3Y2RjMjZiYTBjNmU0MjQzY2I1NzdlYTc5NjFkNWUwOWJiMDM4Zjk3NDU4NDU3MmE4Njc2M2E4M2YwZA==";
-    http.headers().contentSecurityPolicy("script-src '" + formSubmit + "'; report-uri http://localhost:3000/csp-report");
+    http.headers().contentSecurityPolicy("script-src 'self'; report-uri http://localhost:3000/csp-report");
 
     // http.csrf().disable();
   }

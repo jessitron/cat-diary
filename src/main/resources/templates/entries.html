@@ -46,8 +46,7 @@
                         <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}"
                                th:value="${_csrf.token}"/>
                         <input type="checkbox" class="custom-control-input" th:name="seeAllCats"
-                               id="seeAllCats" th:checked="${seeAllCats}"
-                               onchange="form.submit()">
+                               id="seeAllCats" th:checked="${seeAllCats}">
                         <label class="custom-control-label" for="seeAllCats">See All Cats</label>
                     </div>
                 </form>
@@ -88,7 +87,7 @@
                                             <input type="checkbox" class="custom-control-input" th:name="publicity"
                                                    th:id='${"publicity" + entry.id}'
                                                    th:checked="${entry.currentlyPublic}"
-                                                   onchange="form.submit()">
+                                            >
                                             <label class="custom-control-label"
                                                    th:for='${"publicity" + entry.id}'>Public</label>
                                         </div>
@@ -126,6 +125,7 @@
         <div class="col-2"></div>
     </div>
 </footer>
+<script src="/js/makeSlidersAutosubmit.js"></script>
 </body>
 
 </html>
